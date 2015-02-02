@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -14,34 +13,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
-public class MainActivity extends Activity implements OnItemSelectedListener {
+public class MainActivity extends Activity implements OnItemSelectedListener,OnClickListener {
 
 	private Gallery mTestImgLoopGallery;
 	private int mIndex = 0;
 	private mGalleryAdapter mAdapter;
 	private int mCount = 0;
 	private Handler mHandler = new Handler();
+	
+	private Button testButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		Log.d("mytest1",String.valueOf(getWindowManager().getDefaultDisplay().getWidth()));
+		Log.d("mytest1",String.valueOf(getWindowManager().getDefaultDisplay().getHeight()));
+		
 		initView();
 		initListener();
 		initParam();
 		loopThread();
-		
 	}
 
 	private void initView() {
+		testButton = (Button) findViewById(R.id.button);
+		
 		mTestImgLoopGallery = (Gallery) findViewById(R.id.test_img_loop);
+		
 	}
 
 	private void initParam() {
@@ -65,6 +75,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
 	private void initListener() {
 		mTestImgLoopGallery.setOnItemSelectedListener(this);
+		testButton.setOnClickListener(this);
 	}
 	
 	private void loopThread(){
@@ -76,7 +87,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		public void run() {
 			// TODO Auto-generated method stub
 				loopUpdateUI();
-				mHandler.postDelayed(mRunnable, 1000);
+				mHandler.postDelayed(mRunnable, 3000);
 		}
 	};
 	
@@ -141,6 +152,30 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.button:
+        	SampleDialog fragment = new SampleDialog();
+            Bundle args = new Bundle();
+            args.putFloat(
+                    SupportBlurDialogFragment.BUNDLE_KEY_BLUR_RADIUS,
+                    11.5f
+            );
+            args.putFloat(
+                    SupportBlurDialogFragment.BUNDLE_KEY_DOWN_SCALE_FACTOR,
+                    14.0f
+            );
+            fragment.setArguments(args);
+            fragment.debug(false);
+            fragment.show(getFragmentManager(), "blur_sample");
+            break;
+        default:
+            break;
+		}
 	}
 
 }
