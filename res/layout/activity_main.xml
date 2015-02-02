@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+   <Gallery 
+       android:id="@+id/test_img_loop"
+       android:layout_width="fill_parent"
+       android:layout_height="match_parent"
+       android:spacing="300dip"
+       android:layout_alignParentTop="true"
+       />
+	
+</RelativeLayout>
